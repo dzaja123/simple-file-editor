@@ -18,14 +18,13 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
     private JButton buttonGetSelection2;
     private JTextArea textArea;
     private JTextArea textArea1;
-    String directory; // The default directory to display in the FileDialog
+    String directory;
 
     String selection;
 
     public PredlogKorisnickogInterfejsa() {
         setContentPane(contentPane);
         setModal(true);
-        //    getRootPane().setDefaultButton(buttonOpen);
 
         buttonClose.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -58,7 +57,6 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
             public void actionPerformed(ActionEvent e) {onButtonGetSelection2(); }
         });
 
-        // call onCancel() when cross is clicked
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onButtonClose();
@@ -73,18 +71,18 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
         File file;
         FileWriter out = null;
         try {
-            file = new File(directory, filename); // Create a file object
-            out = new FileWriter(file); // And a char stream to write it
-            textArea.getLineCount(); // Get text from the text area
+            file = new File(directory, filename);
+            out = new FileWriter(file);
+            textArea.getLineCount();
             String s = textArea.getText();
             out.write(s);
         }
-        // Display messages if something goes wrong
+
         catch (IOException e) {
             textArea.setText(e.getClass().getName() + ": " + e.getMessage());
             this.setTitle("FileViewer: " + filename + ": I/O Exception");
         }
-        // Always be sure to close the input stream!
+
         finally {
             try {
                 if (out != null)
@@ -99,27 +97,24 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
             return;
         File file;
         FileReader in = null;
-        // Read and display the file contents. Since we're reading text, we
-        // use a FileReader instead of a FileInputStream.
+
         try {
-            file = new File(directory, filename); // Create a file object
-            in = new FileReader(file); // And a char stream to read it
-            char[] buffer = new char[4096]; // Read 4K characters at a time
-            int len; // How many chars read each time
-            textArea.setText(""); // Clear the text area
-            while ((len = in.read(buffer)) != -1) { // Read a batch of chars
-                String s = new String(buffer, 0, len); // Convert to a string
-                textArea.append(s); // And display them
+            file = new File(directory, filename);
+            in = new FileReader(file);
+            char[] buffer = new char[4096];
+            int len;
+            textArea.setText("");
+            while ((len = in.read(buffer)) != -1) {
+                String s = new String(buffer, 0, len);
+                textArea.append(s);
             }
-            this.setTitle("FileViewer: " + filename); // Set the window title
-            textArea.setCaretPosition(0); // Go to start of file
+            this.setTitle("FileViewer: " + filename);
+            textArea.setCaretPosition(0);
         }
-        // Display messages if something goes wrong
         catch (IOException e) {
             textArea.setText(e.getClass().getName() + ": " + e.getMessage());
             this.setTitle("FileViewer: " + filename + ": I/O Exception");
         }
-        // Always be sure to close the input stream!
         finally {
             try {
                 if (in != null)
@@ -129,26 +124,25 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
         }
     }
     private void onButtonOpen(JTextArea textArea) {
-        // Create a file dialog box to prompt for a new file to display
+
         FileDialog f = new FileDialog(this, "Otvori fajl", FileDialog.LOAD);
-        f.setDirectory(directory); // Set the default directory
-        // Display the dialog and wait for the user's response
+        f.setDirectory(directory);
+
         f.setVisible(true);
-        directory = f.getDirectory(); // Remember new default directory
-        loadAndDisplayFile(directory, f.getFile(), textArea); // Load and display selection
-        f.dispose(); // Get rid of the dialog box
+        directory = f.getDirectory();
+        loadAndDisplayFile(directory, f.getFile(), textArea);
+        f.dispose();
     }
 
     private void onButtonSave() {
-        // Create a file dialog box to prompt for a new file to display
+
         FileDialog f = new FileDialog(this, "Sacuvaj fajl", FileDialog.SAVE);
-        f.setDirectory(directory); // Set the default directory
-        // Display the dialog and wait for the user's response
+        f.setDirectory(directory);
         f.setVisible(true);
-        directory = f.getDirectory(); // Remember new default directory
-        saveFile(directory, f.getFile(), textArea); // Load and display selection
+        directory = f.getDirectory();
+        saveFile(directory, f.getFile(), textArea);
         //saveFile(directory, f.getFile(), textArea1);
-        f.dispose(); // Get rid of the dialog box
+        f.dispose();
     }
 
     private void onButtonGetSelection()
@@ -164,7 +158,6 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
     }
 
     private void onButtonClose() {
-        // add your code here if necessary
         dispose();
     }
     public static void main(String[] args) {
